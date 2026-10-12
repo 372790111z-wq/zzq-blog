@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title id="title">文章 · 修订痕迹标识</title>
+  <desc id="desc">三行不完整的印刷文字经过一条橙色修订条，合成一条完整的线。</desc>
+  <rect width="256" height="256" rx="28" fill="#26312c"/>
+  <g fill="#f5f3ec">
+    <path d="M42 82h28v8H42zM77 82h42v8H77zM42 119h17v8H42zM67 119h52v8H67zM42 156h42v8H42zM93 156h26v8H93z"/>
+    <path d="M137 119h78v8h-78z"/>
+  </g>
+  <rect x="119" y="62" width="18" height="132" rx="1" fill="#e45b43"/>
+</svg>
