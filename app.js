@@ -72,7 +72,7 @@
     if (!a || !v) return;
     const tabs = a.versions.map((item, index) =>
       '<button class="tab" type="button" role="tab" aria-selected="' + (index === state.version) + '" data-version="' + index + '">' + escape(item.platform || item.title) + '</button>').join('');
-    const gallery = a.media.gallery.map((url, index) =>
+    const gallery = (a.media.inline ? [] : a.media.gallery).map((url, index) =>
       '<figure><img loading="lazy" src="' + escape(url) + '" alt="' + escape(a.title) + ' 配图 ' + (index + 1) + '"><figcaption>' + String(index + 1).padStart(2,'0') + ' / ' + escape(a.title) + '</figcaption></figure>').join('');
     const video = a.media.video && safeImage(a.media.video) ?
       '<h3>相关视频</h3><video controls preload="metadata" playsinline src="' + escape(a.media.video) + '">浏览器不支持视频播放。</video>' : '';
