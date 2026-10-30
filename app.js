@@ -65,7 +65,7 @@
   function renderList() {
     $('count').textContent = data.articles.length;
     $('list').innerHTML = data.articles.map((a, index) =>
-      '<button class="item' + (index === state.article ? ' active' : '') + '" type="button" data-article="' + index + '" role="listitem"><small class="item-date"><time datetime="' + escape(a.date) + '">' + escape(displayDate(a.date)) + '</time><em>' + String(index + 1).padStart(2,'0') + '</em></small><strong>' + escape(a.title) + '</strong><span>' + a.versions.length + ' 个版本 · ' + a.media.gallery.length + ' 张图' + (a.media.video ? ' · 视频' : '') + '</span></button>').join('');
+      '<button class="item' + (index === state.article ? ' active' : '') + '" type="button" data-article="' + index + '" role="listitem"><small class="item-date"><time datetime="' + escape(a.date) + '">' + escape(displayDate(a.date)) + '</time><em>' + String(index + 1).padStart(2,'0') + '</em></small><strong>' + escape(a.title) + '</strong><span>' + (a.kind === 'video' ? '视频 · ' : '') + a.versions.length + ' 个版本 · ' + a.media.gallery.length + ' 张图' + (a.media.video && a.kind !== 'video' ? ' · 视频' : '') + '</span></button>').join('');
   }
   function renderReader() {
     const a = data.articles[state.article], v = a.versions[state.version];
@@ -75,14 +75,14 @@
     const gallery = (a.media.inline ? [] : a.media.gallery).map((url, index) =>
       '<figure><img loading="lazy" src="' + escape(url) + '" alt="' + escape(a.title) + ' 配图 ' + (index + 1) + '"><figcaption>' + String(index + 1).padStart(2,'0') + ' / ' + escape(a.title) + '</figcaption></figure>').join('');
     const video = a.media.video && safeImage(a.media.video) ?
-      '<h3>相关视频</h3><video controls preload="metadata" playsinline src="' + escape(a.media.video) + '">浏览器不支持视频播放。</video>' : '';
-    $('reader').innerHTML = '<span class="reader-label">ARTICLE / ' + String(state.article + 1).padStart(2,'0') +
+      '<h3>' + (a.kind === 'video' ? '观看影片' : '相关视频') + '</h3><video controls preload="metadata" playsinline' + (safeImage(a.media.gallery[0]) ? ' poster="' + escape(a.media.gallery[0]) + '"' : '') + ' src="' + escape(a.media.video) + '">浏览器不支持视频播放。</video>' : '';
+    $('reader').innerHTML = '<span class="reader-label">' + (a.kind === 'video' ? 'VIDEO' : 'ARTICLE') + ' / ' + String(state.article + 1).padStart(2,'0') +
       '</span><h2>' + escape(a.title) + '</h2><time class="reader-date" datetime="' + escape(a.date) + '">' + escape(displayDate(a.date)) +
       '</time><div class="tabs" role="tablist" aria-label="文章版本">' + tabs + '</div>' +
       progressHtml(a.id) +
       (safeUrl(v.public_url) ? '<a class="read-link" target="_blank" rel="noopener noreferrer" href="' + escape(v.public_url) + '">阅读已公开平台版本 ↗</a>' : '') +
       '<div class="article-body">' + markdown(v.content) + '</div>' +
-      (gallery || video ? '<section class="media-section"><h3>文章影像</h3>' + (gallery ? '<div class="gallery">' + gallery + '</div>' : '') + video + '</section>' : '');
+      (gallery || video ? '<section class="media-section"><h3>' + (a.kind === 'video' ? '作品影像' : '文章影像') + '</h3>' + (gallery ? '<div class="gallery">' + gallery + '</div>' : '') + video + '</section>' : '');
   }
   $('list').addEventListener('click', event => {
     const button = event.target.closest('[data-article]');
